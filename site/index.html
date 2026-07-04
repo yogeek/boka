@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BoKa · Huiles essentielles & hydrolats de Géranium Bourbon Rosat — Saint-Leu, La Réunion</title>
+<meta name="description" content="BoKa, exploitation familiale en agroécologie dans les hauts de la Chaloupe à Saint-Leu (La Réunion). Huile essentielle et hydrolat de Géranium Bourbon Rosat, plantes aromatiques séchées et fruits tempérés cultivés sans aucun intrant.">
+<link rel="canonical" href="https://boka.re/">
+<meta name="theme-color" content="#2f4a34">
+
+<!-- Open Graph / réseaux sociaux -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BoKa">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="https://boka.re/">
+<meta property="og:title" content="BoKa · Une exploitation familiale agroécologique à La Réunion">
+<meta property="og:description" content="Huile essentielle et hydrolat de Géranium Bourbon Rosat, plantes séchées et fruits tempérés cultivés sans intrant, dans les hauts de la Chaloupe (Saint-Leu, 974).">
+<meta property="og:image" content="https://boka.re/assets/hero-chaloupe.jpg">
+<meta property="og:image:alt" content="Vue sur la vallée verdoyante des hauts de la Chaloupe, Saint-Leu, La Réunion">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/logo.png" type="image/png">
+
+<style>
+  :root{
+    --forest:#2f4a34;      /* vert forêt profond  */
+    --forest-2:#40613f;
+    --leaf:#6f8f5c;        /* feuillage           */
+    --geranium:#c15f7c;    /* rose géranium       */
+    --geranium-d:#a24862;
+    --cream:#f8f4ec;       /* fond papier naturel */
+    --sand:#ece3d2;
+    --ink:#2b2721;         /* texte               */
+    --muted:#6a6154;
+    --maxw:1180px;
+    --r:16px;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;font-family:var(--sans);color:var(--ink);background:var(--cream);
+    line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em;margin:0}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+  .eyebrow{font-family:var(--sans);text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;font-weight:600;color:var(--geranium-d)}
+  .btn{
+    display:inline-flex;align-items:center;gap:.5em;font-weight:600;font-family:var(--sans);
+    padding:.85em 1.5em;border-radius:100px;text-decoration:none;font-size:.98rem;
+    transition:transform .15s ease,box-shadow .15s ease,background .15s ease;border:1.5px solid transparent;
+  }
+  .btn-primary{background:var(--geranium);color:#fff;box-shadow:0 6px 18px rgba(161,72,98,.28)}
+  .btn-primary:hover{background:var(--geranium-d);transform:translateY(-2px)}
+  .btn-ghost{border-color:rgba(255,255,255,.65);color:#fff}
+  .btn-ghost:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+  .btn-dark{background:var(--forest);color:#fff}
+  .btn-dark:hover{background:var(--forest-2);transform:translateY(-2px)}
+  .btn-outline{border-color:var(--forest);color:var(--forest)}
+  .btn-outline:hover{background:var(--forest);color:#fff}
+
+  /* ---------- Header ---------- */
+  header.site{position:sticky;top:0;z-index:20;background:rgba(248,244,236,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--sand)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem clamp(20px,5vw,48px);max-width:var(--maxw);margin:0 auto}
+  .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--forest);letter-spacing:.02em}
+  .brand img{width:38px;height:38px;object-fit:contain}
+  .nav-links{display:flex;gap:1.5rem;align-items:center}
+  .nav-links a{text-decoration:none;font-size:.94rem;font-weight:500;color:var(--ink);opacity:.85}
+  .nav-links a:hover{opacity:1;color:var(--geranium-d)}
+  .nav .btn{padding:.6em 1.15em}
+  @media(max-width:820px){.nav-links a:not(.btn){display:none}}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;color:#fff;isolation:isolate;min-height:min(88vh,760px);display:flex;align-items:flex-end}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-2;
+    background:url("assets/hero-chaloupe.jpg") center 40%/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(180deg,rgba(28,42,28,.28) 0%,rgba(24,38,26,.30) 45%,rgba(20,32,22,.86) 100%)}
+  .hero .wrap{padding-top:clamp(60px,14vh,120px);padding-bottom:clamp(40px,7vh,72px)}
+  .hero h1{font-size:clamp(3rem,9vw,6rem);margin:.15em 0 .1em;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+  .hero .lead{font-family:var(--serif);font-size:clamp(1.25rem,3.4vw,1.9rem);font-weight:500;max-width:22ch;line-height:1.25;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+  .hero .sub{max-width:46ch;margin:1rem 0 1.8rem;font-size:1.02rem;opacity:.94}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem}
+  .hero .eyebrow{color:#f4c9d4}
+
+  /* ---------- Trust strip ---------- */
+  .trust{background:var(--forest);color:#eef3e9}
+  .trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;padding:0}
+  .trust .item{padding:1.15rem clamp(14px,2vw,22px);display:flex;flex-direction:column;gap:.15rem;border-left:1px solid rgba(255,255,255,.12)}
+  .trust .item:first-child{border-left:none}
+  .trust b{font-family:var(--serif);font-size:1.05rem;font-weight:600}
+  .trust span{font-size:.82rem;opacity:.8}
+  @media(max-width:720px){.trust .wrap{grid-template-columns:1fr 1fr}.trust .item:nth-child(odd){border-left:none}}
+
+  /* ---------- Sections ---------- */
+  section.block{padding:clamp(56px,9vw,110px) 0}
+  .sec-head{max-width:60ch;margin-bottom:clamp(28px,5vw,52px)}
+  .sec-head h2{font-size:clamp(2rem,5vw,3.1rem);margin:.3em 0 .35em;color:var(--forest)}
+  .sec-head p{font-size:1.08rem;color:var(--muted);margin:0}
+
+  /* Produits */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}
+  .card{background:#fff;border:1px solid var(--sand);border-radius:var(--r);padding:1.6rem 1.5rem;display:flex;flex-direction:column;gap:.5rem;
+    transition:transform .18s ease,box-shadow .18s ease}
+  .card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(47,74,52,.12)}
+  .card .ic{width:44px;height:44px;border-radius:12px;background:var(--sand);display:grid;place-items:center;font-size:1.4rem}
+  .card h3{font-size:1.28rem;color:var(--forest)}
+  .card p{margin:0;color:var(--muted);font-size:.96rem}
+  .card .tag{margin-top:auto;font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--geranium-d)}
+
+  /* Split (histoire / démarche) */
+  .split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,64px);align-items:center}
+  .split.rev{direction:rtl}.split.rev>*{direction:ltr}
+  .split img{border-radius:var(--r);box-shadow:0 18px 44px rgba(43,39,33,.16);width:100%;object-fit:cover}
+  .split h2{font-size:clamp(1.9rem,4.5vw,2.8rem);color:var(--forest);margin-bottom:.5em}
+  .split p{color:var(--ink);opacity:.9;margin:.7em 0}
+  @media(max-width:800px){.split{grid-template-columns:1fr}.split img{max-height:420px}}
+
+  .green{background:#eef2e7}
+  .list{list-style:none;padding:0;margin:1.2rem 0 0;display:grid;gap:.7rem}
+  .list li{position:relative;padding-left:1.9rem;color:var(--ink);opacity:.92}
+  .list li::before{content:"❧";position:absolute;left:0;top:0;color:var(--geranium);font-size:1.1rem}
+
+  /* Labels */
+  .labels{display:flex;flex-wrap:wrap;gap:2rem 2.5rem;align-items:center;justify-content:center;margin-top:1rem}
+  .labels figure{margin:0;text-align:center;width:130px}
+  .labels img{height:96px;width:auto;margin:0 auto .5rem;object-fit:contain;filter:saturate(1.02)}
+  .labels figcaption{font-size:.8rem;color:var(--muted)}
+  .labels .encours{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--geranium-d);font-weight:700;display:block}
+
+  /* Contact */
+  .contact{background:var(--forest);color:#eef3e9}
+  .contact h2{color:#fff;font-size:clamp(2rem,5vw,3rem)}
+  .contact .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,56px);align-items:start}
+  .contact a.row{display:flex;align-items:center;gap:.9rem;text-decoration:none;color:#eef3e9;padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:1.05rem}
+  .contact a.row:hover{color:#fff}
+  .contact a.row .ic{width:42px;height:42px;flex:0 0 42px;border-radius:12px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:1.2rem}
+  .contact a.row b{display:block;font-weight:600}
+  .contact a.row small{display:block;opacity:.72;font-size:.82rem;font-weight:400}
+  .contact .socials{display:flex;gap:.8rem;margin-top:1.4rem}
+  .contact .socials a{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;text-decoration:none;font-weight:700;transition:background .15s}
+  .contact .socials a:hover{background:var(--geranium)}
+  @media(max-width:760px){.contact .grid{grid-template-columns:1fr}}
+
+  footer.site{background:#20321f;color:#c7cfc0;padding:2.4rem 0;font-size:.9rem}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;align-items:center}
+  footer a{color:#c7cfc0;text-decoration:none;opacity:.85}
+  footer a:hover{opacity:1;color:#fff}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav">
+    <a class="brand" href="#top"><img src="assets/logo.png" alt="Logo BoKa, illustration de géranium rosat">BoKa</a>
+    <div class="nav-links">
+      <a href="#produits">Nos produits</a>
+      <a href="#demarche">Notre démarche</a>
+      <a href="#histoire">Notre histoire</a>
+      <a href="#contact" class="btn btn-dark">Nous contacter</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Saint-Leu · Les Hauts de la Chaloupe · La Réunion</span>
+      <h1>BoKa</h1>
+      <p class="lead">Une exploitation familiale en polyculture &amp; élevage, cultivée en agroécologie.</p>
+      <p class="sub">Depuis les années 1940, une même famille prend soin de cette terre des hauts de la Chaloupe. Aujourd'hui, nous y cultivons des plantes à parfum et des fruits, sans aucun intrant.</p>
+      <div class="hero-cta">
+        <a href="#produits" class="btn btn-primary">Découvrir nos produits</a>
+        <a href="#contact" class="btn btn-ghost">Où nous trouver ?</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <div class="trust">
+    <div class="wrap">
+      <div class="item"><b>Sans aucun intrant</b><span>Cultures naturelles</span></div>
+      <div class="item"><b>Agroécologie</b><span>Biodiversité préservée</span></div>
+      <div class="item"><b>Depuis les années 40</b><span>Patrimoine familial</span></div>
+      <div class="item"><b>Saint-Leu · 974</b><span>Terroir péi</span></div>
+    </div>
+  </div>
+
+  <!-- PRODUITS -->
+  <section class="block" id="produits">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Nos produits</span>
+        <h2>Le meilleur de la Chaloupe, transformé avec soin</h2>
+        <p>Nous diversifions l'exploitation autour des PAPAM (Plantes Aromatiques à Parfum et Médicinales) et d'un verger de fruits tempérés. Le Géranium Bourbon Rosat en est le fleuron.</p>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="ic">🌿</div>
+          <h3>Huile essentielle de Géranium</h3>
+          <p>Notre PAPAM phare : le Géranium Bourbon Rosat, distillé sur l'exploitation. Une signature olfactive emblématique de La Réunion.</p>
+          <span class="tag">Géranium Bourbon Rosat</span>
+        </article>
+        <article class="card reveal">
+          <div class="ic">💧</div>
+          <h3>Hydrolat de Géranium</h3>
+          <p>L'eau florale issue de la distillation, douce et parfumée, pour le soin et le bien-être au quotidien.</p>
+          <span class="tag">Eau florale</span>
+        </article>
+        <article class="card reveal">
+          <div class="ic">🍃</div>
+          <h3>Plantes aromatiques séchées</h3>
+          <p>Nos PAPAM récoltées et séchées avec soin. Des haies de fleurs jaunes et d'Ambaville nourrissent aussi la biodiversité.</p>
+          <span class="tag">PAPAM séchées</span>
+        </article>
+        <article class="card reveal">
+          <div class="ic">🍑</div>
+          <h3>Fruits tempérés</h3>
+          <p>Un verger de pruniers, pommiers et poiriers cultivé sans aucun intrant. Des fruits vendus bruts, au rythme des saisons.</p>
+          <span class="tag">Prunes · Pommes · Poires</span>
+        </article>
+      </div>
+      <p style="margin-top:2rem"><a href="#contact" class="btn btn-outline">Où trouver nos produits&nbsp;?</a></p>
+    </div>
+  </section>
+
+  <!-- DEMARCHE -->
+  <section class="block green" id="demarche">
+    <div class="wrap split">
+      <div class="reveal">
+        <span class="eyebrow">Notre démarche</span>
+        <h2>Cultiver en préservant le vivant</h2>
+        <p>Ayant à cœur de préserver l'environnement, nous cultivons <strong>sans aucun intrant</strong>. Notre approche agroécologique fait de la biodiversité une alliée plutôt qu'une contrainte.</p>
+        <ul class="list">
+          <li>Aucun intrant chimique, sur toutes nos parcelles</li>
+          <li>Plantation d'arbres &amp; de plantes endémiques pour enrichir la biodiversité</li>
+          <li>Haies de fleurs jaunes et d'Ambaville, refuges pour les auxiliaires</li>
+          <li>Diversification : élevage bovin, PAPAM et verger sur une même terre</li>
+        </ul>
+      </div>
+      <img src="assets/geranium.jpg" alt="Plant de Géranium Bourbon Rosat cultivé sur l'exploitation BoKa" loading="lazy">
+    </div>
+  </section>
+
+  <!-- HISTOIRE -->
+  <section class="block" id="histoire">
+    <div class="wrap split rev">
+      <img src="assets/grand-pere.jpg" alt="Portrait de famille, mémoire de l'exploitation BoKa fondée dans les années 1940" loading="lazy">
+      <div class="reveal">
+        <span class="eyebrow">Notre histoire</span>
+        <h2>Un patrimoine familial, transmis&nbsp;de&nbsp;génération en génération</h2>
+        <p>Localisée dans les hauts de la Chaloupe à Saint-Leu, notre exploitation a été créée par mes grands-parents dans les années 40. Au fil du temps, elle a connu diverses activités : élevage, maraîchage, culture de géranium…</p>
+        <p>Reprise par mon père, principalement pour l'élevage, elle se prépare aujourd'hui, <strong>en famille</strong>, à une nouvelle transmission — en organisant la diversification de ses activités tout en préservant ce que nous ont laissé les anciens.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LABELS -->
+  <section class="block green">
+    <div class="wrap" style="text-align:center">
+      <div class="sec-head reveal" style="margin:0 auto 2rem">
+        <span class="eyebrow">Engagements &amp; partenaires</span>
+        <h2>Une démarche reconnue</h2>
+        <p style="margin-left:auto;margin-right:auto">Nous sommes engagés dans une démarche de certification et accompagnés par les acteurs de la filière réunionnaise.</p>
+      </div>
+      <div class="labels reveal">
+        <figure><img src="assets/label-ab.png" alt="Label Agriculture Biologique"><figcaption><span class="encours">Démarche engagée</span>Agriculture Biologique</figcaption></figure>
+        <figure><img src="assets/label-hve.png" alt="Certification Haute Valeur Environnementale"><figcaption><span class="encours">Démarche engagée</span>Haute Valeur Environnementale</figcaption></figure>
+        <figure><img src="assets/partner-armefhlor.jpg" alt="ARMEFLHOR" style="height:70px"><figcaption>ARMEFLHOR</figcaption></figure>
+        <figure><img src="assets/partner-dept974.png" alt="Département de La Réunion" style="height:70px"><figcaption>Département de La Réunion</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="block contact" id="contact">
+    <div class="wrap">
+      <div class="grid">
+        <div class="reveal">
+          <span class="eyebrow" style="color:#f4c9d4">Nous contacter</span>
+          <h2>Envie de nos produits&nbsp;?<br>Écrivez-nous.</h2>
+          <p style="opacity:.9;max-width:38ch">Pour commander, connaître nos points de vente ou simplement échanger sur l'exploitation, nous sommes à votre écoute.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/bok_agriculture/" target="_blank" rel="noopener" aria-label="Instagram BoKa" title="Instagram">◎</a>
+            <a href="https://www.facebook.com/profile.php?id=61572198946447" target="_blank" rel="noopener" aria-label="Facebook BoKa" title="Facebook">f</a>
+          </div>
+        </div>
+        <div class="reveal">
+          <a class="row" href="mailto:boka.reunion+hello@gmail.com">
+            <span class="ic">✉</span><span><b>boka.reunion+hello@gmail.com</b><small>Par e-mail</small></span>
+          </a>
+          <a class="row" href="tel:+33652397794">
+            <span class="ic">📞</span><span><b>+33 (0)6 52 39 77 94</b><small>Par téléphone</small></span>
+          </a>
+          <a class="row" href="https://www.instagram.com/bok_agriculture/" target="_blank" rel="noopener">
+            <span class="ic">◎</span><span><b>@bok_agriculture</b><small>Sur Instagram</small></span>
+          </a>
+          <a class="row" href="#" onclick="return false" style="cursor:default">
+            <span class="ic">📍</span><span><b>Les Hauts de la Chaloupe</b><small>Saint-Leu · La Réunion (974)</small></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <a class="brand" href="#top" style="color:#fff;font-size:1.3rem;display:flex;align-items:center;gap:.5rem"><img src="assets/logo.png" alt="" style="width:30px;height:30px;object-fit:contain">BoKa</a>
+    <span>© <span id="y"></span> BoKa · Exploitation familiale agroécologique · Saint-Leu, La Réunion</span>
+    <span><a href="mailto:boka.reunion+hello@gmail.com">Contact</a> · <a href="https://www.instagram.com/bok_agriculture/" target="_blank" rel="noopener">Instagram</a></span>
+  </div>
+</footer>
+
+<!-- Données structurées : référencement local -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LocalBusiness",
+  "@id":"https://boka.re/#business",
+  "name":"BoKa",
+  "description":"Exploitation familiale en agroécologie : huile essentielle et hydrolat de Géranium Bourbon Rosat, plantes aromatiques séchées et fruits tempérés cultivés sans intrant.",
+  "url":"https://boka.re/",
+  "image":"https://boka.re/assets/hero-chaloupe.jpg",
+  "email":"boka.reunion+hello@gmail.com",
+  "telephone":"+33652397794",
+  "address":{"@type":"PostalAddress","addressLocality":"Saint-Leu","addressRegion":"La Réunion","postalCode":"97436","addressCountry":"RE"},
+  "areaServed":"La Réunion",
+  "sameAs":["https://www.instagram.com/bok_agriculture/","https://www.facebook.com/profile.php?id=61572198946447"]
+}
+</script>
+<script>
+  document.getElementById('y').textContent=new Date().getFullYear();
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
