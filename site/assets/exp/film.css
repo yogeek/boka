@@ -17,3 +17,20 @@
 @media(prefers-reduced-motion:reduce){ .grain{animation:none} }
 /* La couche texte reste au-dessus des overlays. */
 #film{position:relative; z-index:10}
+
+/* --- Révélation « buvard » : la landing émerge de la dilution de la goutte. ---
+   Le canvas (frame finale : la goutte) reste figé derrière ; la landing crème
+   est masquée par une tache d'encre qui grandit depuis le point d'impact (haut
+   centre) au fil du scroll. --reveal 0 -> masquée, 1 -> pleinement révélée.
+   Trois cercles décalés donnent un bord irrégulier, comme un buvard mouillé. */
+.landing.buvard{
+  --reveal:0;
+  -webkit-mask-image:
+    radial-gradient(circle at 50% 5vh, #000 calc(var(--reveal) * 165vh), transparent calc(var(--reveal) * 165vh + 14vh)),
+    radial-gradient(circle at 34% 3vh, #000 calc(var(--reveal) * 150vh), transparent calc(var(--reveal) * 150vh + 18vh));
+  mask-image:
+    radial-gradient(circle at 50% 5vh, #000 calc(var(--reveal) * 165vh), transparent calc(var(--reveal) * 165vh + 14vh)),
+    radial-gradient(circle at 34% 3vh, #000 calc(var(--reveal) * 150vh), transparent calc(var(--reveal) * 150vh + 18vh));
+}
+/* Transition terminée : plus de masque à repeindre sur toute la longue landing. */
+.landing.buvard.revealed{ -webkit-mask-image:none; mask-image:none; }

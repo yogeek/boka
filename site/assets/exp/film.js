@@ -26,6 +26,7 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canvas = document.getElementById('film-canvas');
   var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var landing = document.querySelector('.landing');
   var rail = document.querySelector('.rail');
   var hint = document.querySelector('.scroll-hint');
 
@@ -81,9 +82,10 @@
     // --- État lissé + rendu. ---
     function run() {
       root.classList.add('is-live');
+      if (landing) landing.classList.add('buvard');
       buildRail();
       var dots = rail ? Array.prototype.slice.call(rail.children) : [];
-      var t = 0, tTarget = 0, cur = -1, scrolled = false;
+      var t = 0, tTarget = 0, cur = -1, scrolled = false, lastReveal = -1;
 
       function resize() {
         var dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -117,6 +119,24 @@
           }
         }
         for (var j = 0; j < dots.length; j++) dots[j].classList.toggle('on', j === active);
+
+        // Buvard : la goutte « tombe » quand le haut de la landing entre dans le
+        // cadre ; la tache d'encre grandit sur ~un écran de scroll et révèle les mots.
+        // On n'écrit --reveal que s'il change, et on retire le masque une fois
+        // révélé (sinon le navigateur repeint le masque sur toute la longue landing
+        // à chaque frame de scroll — coûteux et inutile).
+        if (landing) {
+          var lt = landing.getBoundingClientRect().top;
+          var p = (vh - lt) / (vh * 0.95);
+          p = p < 0 ? 0 : (p > 1 ? 1 : p);
+          var pr = Math.round(p * 100) / 100;
+          if (pr !== lastReveal) {
+            lastReveal = pr;
+            landing.style.setProperty('--reveal', pr.toFixed(2));
+            // Masque actif seulement pendant la transition ; retiré une fois plein.
+            landing.classList.toggle('revealed', pr >= 1);
+          }
+        }
       }
       function frame() {
         t += (tTarget - t) * 0.075;
