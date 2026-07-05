@@ -51,10 +51,23 @@
     '  return (uv-0.5)*sc/zoom + 0.5 + off;\n' +
     '}\n' +
     'float band(float t,float a,float b,float w){ return clamp(smoothstep(a-w,a+w,t)-smoothstep(b-w,b+w,t),0.0,1.0); }\n' +
+    // Zoom de plongée continu : chaque scène grossit sur toute sa durée.
+    // En sortie de scène N elle est fortement zoomée (on a plongé dedans),
+    // la scène N+1 entre à échelle quasi normale -> illusion de descente sans fin.
+    'float ease(float x){ x=clamp(x,0.0,1.0); return x*x*(3.0-2.0*x); }\n' +
+    'float diveZoom(float p){ return mix(1.0, 2.0, ease(p)); }\n' +
+    // Parallaxe 2.5D : la luminance sert de pseudo-profondeur ; les plans
+    // proches (clairs) se décollent du fond et fuient vers les bords quand on plonge.
+    'vec3 sampleDepth(sampler2D tx, vec2 iu, float p){\n' +
+    '  vec3 c0=texture(tx,iu).rgb;\n' +
+    '  float dep=lum(c0)-0.45;\n' +
+    '  vec2 rel=(iu-0.5)*dep*0.05*(0.3+p) + uPtr*dep*0.02;\n' +
+    '  return texture(tx, iu+rel).rgb;\n' +
+    '}\n' +
     // --- Scènes ---
     'vec3 sceneSky(vec2 uv,float scrA,float p){\n' +
-    '  vec2 iu=coverUV(uv,A_SKY,scrA, vec2(uPtr.x*0.012, uPtr.y*0.008 + p*0.05), 1.05+p*0.10);\n' +
-    '  vec3 c=texture(uSky,iu).rgb;\n' +
+    '  vec2 iu=coverUV(uv,A_SKY,scrA, vec2(uPtr.x*0.012, uPtr.y*0.008 + p*0.04), diveZoom(p)*1.02);\n' +
+    '  vec3 c=sampleDepth(uSky,iu,p);\n' +
     '  float f=fbm(uv*vec2(3.0,2.0)+vec2(uTime*0.015,uTime*0.010));\n' +
     '  f=smoothstep(0.25,0.95,f);\n' +
     '  c=mix(c, vec3(0.88,0.84,0.78), f*(0.42-p*0.30));\n' +
@@ -63,8 +76,8 @@
     '  return c;\n' +
     '}\n' +
     'vec3 sceneValley(vec2 uv,float scrA,float p){\n' +
-    '  vec2 iu=coverUV(uv,A_VAL,scrA, vec2(uPtr.x*0.020, uPtr.y*0.012 - (1.0-p)*0.04), 1.14-p*0.08);\n' +
-    '  vec3 c=texture(uValley,iu).rgb;\n' +
+    '  vec2 iu=coverUV(uv,A_VAL,scrA, vec2(uPtr.x*0.020, uPtr.y*0.012), diveZoom(p)*1.06);\n' +
+    '  vec3 c=sampleDepth(uValley,iu,p);\n' +
     '  float band=fbm(uv*vec2(4.0,3.0)+vec2(-uTime*0.02,uTime*0.008));\n' +
     '  float cover=smoothstep(0.0,0.7,1.0-p);\n' +
     '  float mask=cover*smoothstep(0.25,0.95,band)*smoothstep(0.15,0.95,1.0-uv.y+ (1.0-p)*0.3);\n' +
@@ -72,8 +85,8 @@
     '  return c;\n' +
     '}\n' +
     'vec3 sceneTerre(vec2 uv,float scrA,float p){\n' +
-    '  vec2 iu=coverUV(uv,A_GER,scrA, vec2(uPtr.x*0.018, uPtr.y*0.010), 1.15+p*0.14);\n' +
-    '  vec3 c=texture(uGer,iu).rgb;\n' +
+    '  vec2 iu=coverUV(uv,A_GER,scrA, vec2(uPtr.x*0.018, uPtr.y*0.010), diveZoom(p)*1.08);\n' +
+    '  vec3 c=sampleDepth(uGer,iu,p);\n' +
     '  c*=mix(1.0,1.05,p);\n' +
     '  c+=vec3(0.05,0.03,0.0)*max(0.0,0.7-length((uv-vec2(0.42,0.5))*vec2(scrA,1.0)));\n' +
     '  float pol=0.0;\n' +
@@ -87,8 +100,8 @@
     '  return c;\n' +
     '}\n' +
     'vec3 sceneHeritage(vec2 uv,float scrA,float p){\n' +
-    '  vec2 iu=coverUV(uv,A_HER,scrA, vec2(uPtr.x*0.010, uPtr.y*0.008), 1.02);\n' +
-    '  vec3 ph=texture(uHer,iu).rgb;\n' +
+    '  vec2 iu=coverUV(uv,A_HER,scrA, vec2(uPtr.x*0.010, uPtr.y*0.008), diveZoom(p)*1.0);\n' +
+    '  vec3 ph=sampleDepth(uHer,iu,p);\n' +
     '  float g=lum(ph);\n' +
     '  vec3 sep=vec3(g)*vec3(1.14,0.98,0.78);\n' +
     '  ph=mix(sep, ph, smoothstep(0.15,0.9,p));\n' +
@@ -98,8 +111,8 @@
     '  return mix(vec3(0.03,0.03,0.04), ph, vig);\n' +
     '}\n' +
     'vec3 sceneAlambic(vec2 uv,float scrA,float p){\n' +
-    '  vec2 iu=coverUV(uv,A_ALA,scrA, vec2(uPtr.x*0.014, uPtr.y*0.010), 1.08);\n' +
-    '  vec3 c=texture(uAlam,iu).rgb;\n' +
+    '  vec2 iu=coverUV(uv,A_ALA,scrA, vec2(uPtr.x*0.014, uPtr.y*0.010), diveZoom(p)*1.04);\n' +
+    '  vec3 c=sampleDepth(uAlam,iu,p);\n' +
     '  float v=fbm(uv*vec2(5.0,4.0)+vec2(uTime*0.05,uTime*0.30));\n' +
     '  v=smoothstep(0.45,0.98,v);\n' +
     '  float mask=smoothstep(0.0,0.6,uv.y)*smoothstep(0.85,0.30,abs(uv.x-0.55));\n' +
@@ -132,24 +145,31 @@
     'void main(){\n' +
     '  vec2 uv=vUv;\n' +
     '  float scrA=uRes.x/uRes.y;\n' +
-    '  float w=0.045;\n' +
-    '  float w0=band(uT,-0.1,0.1428,w);\n' +
-    '  float w1=band(uT,0.1428,0.2857,w);\n' +
-    '  float w2=band(uT,0.2857,0.4285,w);\n' +
-    '  float w3=band(uT,0.4285,0.5714,w);\n' +
-    '  float w4=band(uT,0.5714,0.7142,w);\n' +
-    '  float w5=band(uT,0.7142,0.8571,w);\n' +
-    '  float w6=band(uT,0.8571,1.1,w);\n' +
+    // Dissolution organique : on décale la timeline par un bruit fbm nuageux,
+    // pixel par pixel, pour que chaque transition soit un fondu texturé (la brume
+    // mange l'image sortante) et non un fondu d'opacité uniforme. Fenêtre douce
+    // pour garder le tout premier plan (héros) et l'atterrissage nets.
+    '  float dsolve=fbm(uv*vec2(3.2,2.4)+vec2(uTime*0.03,-uTime*0.02));\n' +
+    '  float dwin=smoothstep(0.0,0.12,uT)*smoothstep(1.0,0.86,uT);\n' +
+    '  float uTn=uT + (dsolve-0.5)*0.07*dwin;\n' +
+    '  float w=0.055;\n' +
+    '  float w0=band(uTn,-0.1,0.1428,w);\n' +
+    '  float w1=band(uTn,0.1428,0.2857,w);\n' +
+    '  float w2=band(uTn,0.2857,0.4285,w);\n' +
+    '  float w3=band(uTn,0.4285,0.5714,w);\n' +
+    '  float w4=band(uTn,0.5714,0.7142,w);\n' +
+    '  float w5=band(uTn,0.7142,0.8571,w);\n' +
+    '  float w6=band(uTn,0.8571,1.1,w);\n' +
     '  float sum=w0+w1+w2+w3+w4+w5+w6+1e-4;\n' +
     '  w0/=sum; w1/=sum; w2/=sum; w3/=sum; w4/=sum; w5/=sum; w6/=sum;\n' +
     '  float seg=1.0/7.0;\n' +
     '  vec3 col=vec3(0.0);\n' +
-    '  if(w0>0.001) col+=sceneSky(uv,scrA, clamp((uT-0.0*seg)/seg,0.0,1.0))*w0;\n' +
-    '  if(w1>0.001) col+=sceneValley(uv,scrA, clamp((uT-1.0*seg)/seg,0.0,1.0))*w1;\n' +
-    '  if(w2>0.001) col+=sceneTerre(uv,scrA, clamp((uT-2.0*seg)/seg,0.0,1.0))*w2;\n' +
-    '  if(w3>0.001) col+=sceneHeritage(uv,scrA, clamp((uT-3.0*seg)/seg,0.0,1.0))*w3;\n' +
-    '  if(w4>0.001) col+=sceneAlambic(uv,scrA, clamp((uT-4.0*seg)/seg,0.0,1.0))*w4;\n' +
-    '  if(w5>0.001) col+=sceneEssence(uv,scrA, clamp((uT-5.0*seg)/seg,0.0,1.0))*w5;\n' +
+    '  if(w0>0.001) col+=sceneSky(uv,scrA, clamp((uTn-0.0*seg)/seg,0.0,1.0))*w0;\n' +
+    '  if(w1>0.001) col+=sceneValley(uv,scrA, clamp((uTn-1.0*seg)/seg,0.0,1.0))*w1;\n' +
+    '  if(w2>0.001) col+=sceneTerre(uv,scrA, clamp((uTn-2.0*seg)/seg,0.0,1.0))*w2;\n' +
+    '  if(w3>0.001) col+=sceneHeritage(uv,scrA, clamp((uTn-3.0*seg)/seg,0.0,1.0))*w3;\n' +
+    '  if(w4>0.001) col+=sceneAlambic(uv,scrA, clamp((uTn-4.0*seg)/seg,0.0,1.0))*w4;\n' +
+    '  if(w5>0.001) col+=sceneEssence(uv,scrA, clamp((uTn-5.0*seg)/seg,0.0,1.0))*w5;\n' +
     '  if(w6>0.001) col+=sceneRencontre(uv)*w6;\n' +
     '  float clean=w6;\n' +                 // scène 6 = propre (contenu lisible)
     '  float gr=hash(uv*uRes*0.5+uTime)*2.0-1.0;\n' +
