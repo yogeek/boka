@@ -71,7 +71,9 @@
   .nav-links a{text-decoration:none;font-size:.94rem;font-weight:500;color:var(--ink);opacity:.85}
   .nav-links a:hover{opacity:1;color:var(--geranium-d)}
   .nav .btn{padding:.6em 1.15em}
-  @media(max-width:820px){.nav-links a:not(.btn){display:none}}
+  .nav-links a.xp-link{color:var(--geranium-d);opacity:1;font-weight:600;letter-spacing:.01em}
+  .nav-links a.xp-link:hover{color:var(--geranium)}
+  @media(max-width:820px){.nav-links a:not(.btn):not(.xp-link){display:none}.nav-links a.xp-link{font-size:.82rem}}
 
   /* ---------- Hero ---------- */
   .hero{position:relative;color:#fff;isolation:isolate;min-height:min(88vh,760px);display:flex;align-items:flex-end}
@@ -164,6 +166,7 @@
       <a href="#produits">Nos produits</a>
       <a href="#demarche">Notre démarche</a>
       <a href="#histoire">Notre histoire</a>
+      <a href="experience.html" class="xp-link">Vivre l'expérience&nbsp;✦</a>
       <a href="#contact" class="btn btn-dark">Nous contacter</a>
     </div>
   </nav>
