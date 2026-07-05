@@ -10,6 +10,11 @@
     return i < 0 ? 0 : (i > count - 1 ? count - 1 : i);
   }
 
+  // --- Fonctions pures pour l'effet buvard : borne [0,1] + rampe adoucie. ---
+  function clamp01(x) { return x < 0 ? 0 : (x > 1 ? 1 : x); }
+  // Remappe x de la fenêtre [a,b] vers [0,1] avec un smoothstep (départ/arrivée doux).
+  function ramp(x, a, b) { var u = clamp01((x - a) / (b - a)); return u * u * (3 - 2 * u); }
+
   // --- Auto-test console (tient lieu de test unitaire dans ce site sans framework). ---
   (function selftest() {
     var ok = true, c = 10;
@@ -19,7 +24,10 @@
     ok = ok && frameIndexFor(-1, c) === 0;    // borné bas
     ok = ok && frameIndexFor(2, c) === 9;     // borné haut
     ok = ok && frameIndexFor(0.5, 0) === 0;   // count nul
-    console.log('[film:selftest] frameIndexFor ' + (ok ? 'PASS' : 'FAIL'));
+    ok = ok && clamp01(-1) === 0 && clamp01(2) === 1 && clamp01(0.5) === 0.5;
+    ok = ok && ramp(0, 0.2, 0.8) === 0 && ramp(1, 0.2, 0.8) === 1;  // hors fenêtre borné
+    ok = ok && ramp(0.5, 0, 1) === 0.5;       // milieu de fenêtre = milieu (smoothstep)
+    console.log('[film:selftest] frameIndexFor+buvard ' + (ok ? 'PASS' : 'FAIL'));
   })();
 
   var root = document.documentElement;
@@ -120,21 +128,25 @@
         }
         for (var j = 0; j < dots.length; j++) dots[j].classList.toggle('on', j === active);
 
-        // Buvard : la goutte « tombe » quand le haut de la landing entre dans le
-        // cadre ; la tache d'encre grandit sur ~un écran de scroll et révèle les mots.
-        // On n'écrit --reveal que s'il change, et on retire le masque une fois
-        // révélé (sinon le navigateur repeint le masque sur toute la longue landing
-        // à chaque frame de scroll — coûteux et inutile).
+        // Buvard : la goutte tombe sur la feuille vierge, s'y dissout, puis
+        // l'encre du texte se développe. Deux temps sur ~un écran de scroll :
+        //   --paper : la feuille de buvard crème apparaît d'abord, vierge.
+        //   --ink   : le texte diffuse ensuite depuis le point d'impact (haut).
+        // p mesure l'entrée de la landing dans le cadre (0 en bas, 1 en haut).
+        // On n'écrit que si p change (throttle 1/100) et on retire masque + flou
+        // une fois le texte pleinement développé (sinon repeint coûteux sur toute
+        // la longue landing à chaque frame de scroll).
         if (landing) {
           var lt = landing.getBoundingClientRect().top;
-          var p = (vh - lt) / (vh * 0.95);
-          p = p < 0 ? 0 : (p > 1 ? 1 : p);
+          var p = clamp01((vh - lt) / (vh * 0.95));
           var pr = Math.round(p * 100) / 100;
           if (pr !== lastReveal) {
             lastReveal = pr;
-            landing.style.setProperty('--reveal', pr.toFixed(2));
-            // Masque actif seulement pendant la transition ; retiré une fois plein.
-            landing.classList.toggle('revealed', pr >= 1);
+            var paper = ramp(p, 0.04, 0.28);  // feuille vierge : tôt, après l'impact
+            var ink = ramp(p, 0.30, 0.92);    // texte : en retard, après le papier
+            landing.style.setProperty('--paper', paper.toFixed(3));
+            landing.style.setProperty('--ink', ink.toFixed(3));
+            landing.classList.toggle('revealed', ink >= 1);
           }
         }
       }

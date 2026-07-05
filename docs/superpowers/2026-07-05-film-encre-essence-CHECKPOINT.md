@@ -45,13 +45,12 @@ Le spec (§3 et §6) décrit un **storyboard complet à 8 plans**, une seule des
 ## Retours visuels — TRAITÉS (2026-07-05)
 
 1. ✅ **Huile → eau avant la transition.** Corrigé : keyframe de départ du plan E régénérée (huile ambrée) + clip E régénéré (veo3_1_lite), re-bake des 302 frames. Committé `2d3748f`. Vérifié sur `f_0205`.
-2. ✅ **Révélation « buvard » (v1).** Masque procédural CSS en place (`film.css` `.landing.buvard`, `--reveal` piloté au scroll dans `film.js`). Committé `fb04592`. **Mais** timing à revoir, voir ci-dessous.
+2. ✅ **Révélation « buvard » (v1).** Masque procédural CSS en place (`film.css` `.landing.buvard`, `--reveal` piloté au scroll dans `film.js`). Committé `fb04592`. **Remplacé par la v2, voir ci-dessous.**
+3. ✅ **Buvard v2 — timing « goutte sur papier vierge puis texte ».** Front-end pur (0 crédit). Refonte en deux temps : `--paper` (feuille crème vierge, opacité sur `.landing`) apparaît d'abord, puis `--ink` (texte, masque radial + flou sur `.wrap`) diffuse en retard depuis le point d'impact. Rampes smoothstep dans `film.js` (`clamp01`/`ramp`, autotest console) : `paper=ramp(p,0.04,0.28)`, `ink=ramp(p,0.30,0.92)` → fenêtre p≈0,1-0,3 où le papier est visible **sans texte**. CSS réécrit (`film.css` `.landing.buvard` opacité + `.landing.buvard .wrap` masque/flou, nettoyage via `.revealed`). Vérifié au navigateur : 3 états (feuille vierge / encre en diffusion floue / texte net final).
 
 ## Retours visuels EN ATTENTE (prochaine session)
 
 1. **Le tuyau (condenseur) de l'alambic se transforme en liquide.** Depuis la regénération du plan E, le bras condenseur en cuivre semble fondre / se muer en filet d'huile — « dommage ». On ne voit plus l'eau (bien), mais le tuyau doit rester un tuyau en cuivre rigide ; seul le distillat qui en sort doit couler. → **Regénérer le plan E** (~8 cr, veo3_1_lite) avec un prompt qui verrouille le bras condenseur : « the copper condenser arm stays a solid rigid copper pipe, it does not melt or turn into liquid ; only the amber oil that drips from its tip flows ». Vérifier ensuite avec un contact strip 1fps de tout le clip (pas seulement la 1re frame) avant re-bake. Solde crédits à reconfirmer (`balance`).
-
-2. **Effet buvard : le texte apparaît trop tôt.** Actuellement le texte de la landing se révèle **avant** que la goutte ne touche la zone de texte. Voulu : la goutte tombe d'abord sur la **zone de papier buvard vierge** (aucun texte visible), **s'y dissout**, et **ensuite seulement** le texte apparaît par diffusion depuis le point d'impact. → **Front-end pur** (coût crédits nul), `film.js` + `film.css` : décaler le début de `--reveal` pour qu'il ne démarre qu'au moment de l'impact de la goutte (et non quand le haut de la landing entre dans le cadre), ajouter une phase « goutte pose + dilution » avant l'ouverture du masque. Voir `textChoreography()` dans `site/assets/exp/film.js:108` (calcul de `p`/`pr`) et `.landing.buvard` dans `site/assets/exp/film.css:26`.
 
 ## Contraintes permanentes (rappel)
 
