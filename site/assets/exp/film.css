@@ -1,0 +1,19 @@
+/* Film « Encre & essence » — canvas de frames + overlay grain/vignette. */
+#film-canvas{
+  position:fixed; inset:0; width:100vw; height:100vh; display:block; z-index:0;
+  background:#0d1310;
+}
+/* Overlays au-dessus du canvas, sous le contenu (#film z-index:10). */
+.grain,.vignette{position:fixed; inset:0; z-index:2; pointer-events:none}
+.vignette{background:radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(8,10,8,.55) 100%)}
+.grain{
+  background-image:url(../film/grain.png); background-size:128px 128px;
+  opacity:.06; mix-blend-mode:overlay; animation:grainshift .5s steps(2) infinite;
+}
+@keyframes grainshift{
+  0%{transform:translate(0,0)} 25%{transform:translate(-6px,4px)}
+  50%{transform:translate(5px,-5px)} 75%{transform:translate(-4px,-6px)} 100%{transform:translate(0,0)}
+}
+@media(prefers-reduced-motion:reduce){ .grain{animation:none} }
+/* La couche texte reste au-dessus des overlays. */
+#film{position:relative; z-index:10}
