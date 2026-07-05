@@ -44,6 +44,8 @@ Valeurs reprises verbatim du spec `docs/superpowers/specs/2026-07-05-film-encre-
 
 Tâche interactive (dépense des crédits, jugement visuel). Pas de cycle TDD : la « vérification » est le contrôle qualité humain + `ffprobe`. **Gate** : l'utilisateur valide le look avant de dépenser les clips, puis avant Task 2.
 
+> **⚠️ Adaptation 2026-07-05 (blocage CLI).** Le compte est en état *trial* pour la génération : `higgsfield generate create` renvoie `only_mcp_usage_on_trial_is_available` (les appels lecture comme `generate cost` passent, `create` non). La génération doit passer par le serveur MCP Higgsfield (`https://mcp.higgsfield.ai/mcp`, déjà connecté au niveau CLI). **Utiliser les outils `mcp__higgsfield__*` au lieu des commandes CLI ci-dessous** : mêmes modèles (nano_banana_2 pour les 4 images-clés, veo3_1_lite pour les 2 clips chaînés start/end), mêmes prompts, mêmes gates, même destination `$WORK/kf` et `$WORK/clips`. Les outils MCP n'étaient pas chargés dans la session d'origine → nécessite un redémarrage de session. Aucun crédit dépensé au moment de ce blocage (84 restants). Le reste du pipeline (Task 2→5) est indépendant de la source des clips.
+
 **Files:**
 - Create (hors dépôt): `$WORK/kf/{sky,terre,goutte,flacon}.png`
 - Create (hors dépôt): `$WORK/clips/{A_sky_terre,B_goutte_flacon}.mp4`
