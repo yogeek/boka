@@ -47,7 +47,8 @@ Nouvelle page `site/film.html`, sœur de `experience.html`.
 - **Séquence** : ~200 frames pour tout le voyage, en **local** dans `site/assets/film/` (contrainte « site autonome », aucun CDN). Cible poids : 3-6 Mo (AVIF ~15-25 Ko/frame ; fallback WebP).
 - **Préchargement** : ~20 premières frames en priorité, reste en lazy-load progressif. Manifeste JSON listant les frames.
 - **Texte + rail** : réutilisation du moteur de `experience.js` (t lissé lerp, chorégraphie de texte par distance au centre, rail de progression). Fichier JS dédié `film.js` dérivé de `experience.js`.
-- **Overlay grain / vignette / dissolution d'encre** : passe légère optionnelle (canvas 2D ou mini-shader) par-dessus la frame. Reportée en v2 pour ne pas complexifier d'emblée.
+- **Overlay grain / vignette / dissolution d'encre** : passe légère (canvas 2D ou mini-shader) par-dessus la frame, **dès la v1**. Grain fin animé + vignette douce pour lier les plans et donner le grain « pellicule ».
+- **Format** : paysage **16:9**, frames exportées en **720p** (1280×720).
 - **Repli** : `prefers-reduced-motion`, support absent, ou frames en échec de chargement → redirection propre vers `experience.html` (qui a déjà son repli statique). Aucune régression, autonomie totale.
 
 ## 5. Pipeline de génération (Higgsfield CLI)
@@ -93,8 +94,8 @@ Budget disponible : **84 crédits**. Le run complet 8 plans coûte ~82 cr (9 ima
 - Page autonome (aucune requête externe), poids frames 3-6 Mo, dégradation propre vers `experience.html`.
 - Contenu et contacts inchangés, aucune invention.
 
-## 9. Questions ouvertes
+## 9. Décisions tranchées
 
-- Format cible : paysage 16:9 (retenu par défaut) ou portrait 9:16 pour mobile ? À trancher au prototype.
-- Résolution des frames exportées (720p suffit-il pour le scrub plein écran ?) — à valider sur le poids réel.
-- Overlay grain/vignette : v1 ou v2 ?
+- Format : paysage **16:9**.
+- Résolution des frames : **720p** (1280×720), à confirmer sur le poids réel au prototype.
+- Overlay grain/vignette : **v1**.
