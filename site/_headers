@@ -1,0 +1,8 @@
+# Frames du film : contenu immuable (le nom encode la frame), cache 1 an.
+/assets/film/avif/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/film/webp/*
+  Cache-Control: public, max-age=31536000, immutable
+# Visuels statiques de l'expérience : cache 1 jour.
+/assets/exp/*
+  Cache-Control: public, max-age=86400
