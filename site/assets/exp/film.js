@@ -69,23 +69,32 @@
   }
 
   function loadAll(fmt, count, man) {
-    var frames = new Array(count), loaded = 0, failed = 0, ready = false;
+    // Toutes les frames doivent être prêtes avant d'autoriser le scroll :
+    // un scrub rapide sur une frame pas encore chargée gèlerait le canvas
+    // sur la dernière image peinte. L'écran de chargement couvre cette
+    // attente (quelques secondes, ~8 Mo au total) avec une barre de
+    // progression plutôt qu'un film qui saccade.
+    var frames = new Array(count), processed = 0, failed = 0, started = false;
+    var loaderEl = document.getElementById('film-loader');
+    var fillEl = loaderEl && loaderEl.querySelector('.film-loader-fill');
 
     function onOne() {
-      loaded++;
-      if (!ready && loaded >= Math.min(20, count)) { ready = true; run(); }
+      processed++;
+      if (fillEl) fillEl.style.width = Math.round(processed / count * 100) + '%';
+      if (!started && processed >= count) {
+        started = true;
+        if (loaderEl) loaderEl.classList.add('is-done');
+        run();
+      }
     }
-    function load(i, priority) {
+    function load(i) {
       var img = new Image();
-      if (!priority) img.loading = 'eager';
       img.onload = onOne;
-      img.onerror = function () { failed++; if (failed > count * 0.1) bail(); onOne(); };
+      img.onerror = function () { failed++; if (failed > count * 0.15) return bail(); onOne(); };
       img.src = frameURL(fmt, i);
       frames[i] = img;
     }
-    var i;
-    for (i = 0; i < Math.min(20, count); i++) load(i, true);
-    for (i = 20; i < count; i++) load(i, false);
+    for (var i = 0; i < count; i++) load(i);
 
     // --- État lissé + rendu. ---
     function run() {
