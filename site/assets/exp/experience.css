@@ -32,7 +32,12 @@ img{max-width:100%;display:block}
 .xp-top a{pointer-events:auto}
 .xp-brand{
   font-family:var(--serif); font-size:1.35rem; letter-spacing:.02em;
-  color:var(--cream); text-decoration:none; text-shadow:0 2px 18px rgba(0,0,0,.45);
+  color:var(--cream); text-decoration:none;
+  /* Pastille sombre assortie au bouton .xp-classic : le logo reste lisible
+     sur les frames claires (papier crème) du film. */
+  padding:.3em .75em; border-radius:999px;
+  background:rgba(20,26,22,.32); backdrop-filter:blur(6px);
+  text-shadow:0 1px 2px rgba(0,0,0,.8), 0 2px 14px rgba(0,0,0,.45);
 }
 .xp-brand b{color:var(--geranium-l); font-weight:700}
 .xp-classic{
@@ -56,7 +61,8 @@ img{max-width:100%;display:block}
 .eyebrow{
   font-size:.78rem; letter-spacing:.28em; text-transform:uppercase;
   color:var(--geranium-l); margin:0 0 1.1rem; font-weight:600;
-  text-shadow:0 2px 12px rgba(0,0,0,.5);
+  /* halo sombre serré : le rose pâle reste lisible même sur une frame claire */
+  text-shadow:0 1px 2px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.7), 0 2px 16px rgba(0,0,0,.5);
 }
 .pivot{
   font-family:var(--serif); font-weight:600; line-height:1.06;
@@ -66,7 +72,7 @@ img{max-width:100%;display:block}
 .pivot .accent{color:var(--geranium-l)}
 .sub{
   margin:1.3rem 0 0; font-size:clamp(1rem,1.5vw,1.15rem); line-height:1.55;
-  color:rgba(248,244,236,.9); max-width:46ch; text-shadow:0 2px 14px rgba(0,0,0,.5);
+  color:var(--cream); max-width:46ch; text-shadow:0 2px 16px rgba(0,0,0,.72), 0 1px 3px rgba(0,0,0,.6);
 }
 .scene[data-scene="3"] .sub, .scene[data-scene="5"] .sub{margin-left:auto}
 
@@ -184,6 +190,16 @@ img{max-width:100%;display:block}
 
 /* is-live : le canvas gère le visuel, les scènes sont transparentes */
 .is-live #film .scene{background:transparent}
+/* Voile sombre local et flou derrière le texte : lisibilité garantie sur les
+   frames claires (ciel, vallée) sans assombrir toute l'image. Le voile suit le
+   bloc .copy (gauche/droite/centre) et se fond dans le transparent. */
+.is-live #film .copy{position:relative; isolation:isolate}
+.is-live #film .copy::before{
+  content:""; position:absolute; z-index:-1; inset:-16% -12%;
+  background:radial-gradient(64% 62% at 50% 44%,
+    rgba(8,12,9,.66), rgba(8,12,9,.36) 55%, transparent 80%);
+  filter:blur(24px); pointer-events:none;
+}
 
 @media(prefers-reduced-motion:reduce){
   .scroll-hint .chev{animation:none}

@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
-# Post-prod film BoKa : 5 clips enchaînés -> master (fondus encre) -> frames AVIF+WebP 720p + manifeste.
+# Post-prod film BoKa : 5 clips enchaînés -> master -> frames AVIF+WebP 720p + manifeste.
 # Ordre du parcours : A ciel->terre, C terre->coeur, D coeur->alambic, E alambic->goutte, B goutte->flacon.
+# Montage en concaténation simple : chaque clip démarre sur la vraie dernière frame
+# du précédent (chaînage pixel-continu), un fondu superposerait deux rendus quasi
+# identiques de la même image et doublerait les traits d'encre (ghosting).
 set -euo pipefail
 WORK="${WORK:?export WORK=... (dossier scratchpad contenant clips/)}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/site/assets/film"
 FPS="${FPS:-8}"            # 8 fps : ~40s de film tiennent dans le budget poids (3-6 Mo AVIF).
-DUR_DISSOLVE=0.6          # durée du fondu-dissolution (encre) entre chaque plan.
 AVIF_Q="${AVIF_Q:-44}"     # qualité AVIF par frame (plus bas si le total dépasse le budget).
 WEBP_Q="${WEBP_Q:-66}"
 
@@ -26,31 +28,16 @@ N=${#CLIPS[@]}
 rm -rf "$OUT/avif" "$OUT/webp" "$WORK/png"
 mkdir -p "$OUT/avif" "$OUT/webp" "$WORK/png"
 
-# 1. Durée réelle de chaque clip (pour calculer les offsets de fondu).
-DUR=()
-for c in "${CLIPS[@]}"; do
-  d=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$c")
-  DUR+=("$d")
-done
-
-# 2. Construction du filtre : chaque plan mis à l'échelle 1280x720, puis xfade en chaîne.
-#    offset du i-e fondu = (longueur cumulée du montage jusque-là) - durée du fondu.
+# 1. Construction du filtre : chaque plan mis à l'échelle 1280x720, puis concat en chaîne.
 INPUTS=()
 FILTER=""
+CONCAT=""
 for i in "${!CLIPS[@]}"; do
   INPUTS+=(-i "${CLIPS[$i]}")
   FILTER+="[$i:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,setsar=1,fps=$FPS[v$i];"
+  CONCAT+="[v$i]"
 done
-prev="[v0]"
-running="${DUR[0]}"
-for ((i=1; i<N; i++)); do
-  offset=$(awk "BEGIN{printf \"%.3f\", $running - $DUR_DISSOLVE}")
-  if [ "$i" -eq $((N-1)) ]; then out="[v]"; else out="[x$i]"; fi
-  FILTER+="${prev}[v$i]xfade=transition=dissolve:duration=$DUR_DISSOLVE:offset=$offset$out;"
-  prev="$out"
-  running=$(awk "BEGIN{printf \"%.3f\", $running + ${DUR[$i]} - $DUR_DISSOLVE}")
-done
-FILTER="${FILTER%;}"   # retire le ';' final
+FILTER+="${CONCAT}concat=n=$N:v=1:a=0[v]"
 
 ffmpeg -y "${INPUTS[@]}" -filter_complex "$FILTER" \
   -map "[v]" -an -c:v libx264 -crf 18 -pix_fmt yuv420p "$WORK/master.mp4"

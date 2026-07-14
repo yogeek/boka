@@ -102,7 +102,11 @@
         cur = -1; // force un repaint
       }
       function onScroll() {
-        var max = document.documentElement.scrollHeight - window.innerHeight;
+        // Le film doit être terminé (dernier plan : le flacon) quand la landing
+        // commence à entrer dans le cadre, pas quand on atteint le bas de la
+        // page : sinon la fin du film se joue cachée derrière la landing.
+        var max = landing ? landing.offsetTop - window.innerHeight
+                          : document.documentElement.scrollHeight - window.innerHeight;
         tTarget = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
         if (!scrolled && window.scrollY > 8) { scrolled = true; if (hint) hint.classList.add('gone'); }
       }
@@ -142,8 +146,8 @@
           var pr = Math.round(p * 100) / 100;
           if (pr !== lastReveal) {
             lastReveal = pr;
-            var paper = ramp(p, 0.04, 0.28);  // feuille vierge : tôt, après l'impact
-            var ink = ramp(p, 0.30, 0.92);    // texte : en retard, après le papier
+            var paper = ramp(p, 0.05, 0.55);  // feuille : lente, le film reste visible dessous
+            var ink = ramp(p, 0.35, 0.94);    // texte : en retard, après le papier
             landing.style.setProperty('--paper', paper.toFixed(3));
             landing.style.setProperty('--ink', ink.toFixed(3));
             landing.classList.toggle('revealed', ink >= 1);

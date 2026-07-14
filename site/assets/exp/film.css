@@ -32,6 +32,19 @@
   --paper:0; --ink:0;
   opacity:var(--paper);
 }
+/* Pendant la révélation, le papier n'a pas de bord : son arête haute est
+   dissoute par un dégradé (le buvard « boit » le film, la frame finale reste
+   visible au travers), et l'ombre portée est coupée sinon elle dessinerait
+   une ligne franche. Le bord se résout progressivement avec l'encre (--ink)
+   puis .revealed restaure carte + ombre, à un moment où l'arête est déjà
+   sortie de l'écran par le haut. */
+.landing.buvard:not(.revealed){
+  box-shadow:none;
+  -webkit-mask-image:linear-gradient(180deg, transparent 0,
+    #000 calc((1 - var(--ink)) * 55vh + 2px));
+  mask-image:linear-gradient(180deg, transparent 0,
+    #000 calc((1 - var(--ink)) * 55vh + 2px));
+}
 .landing.buvard .wrap{
   filter:blur(calc((1 - var(--ink)) * 5px));
   -webkit-mask-image:
